@@ -3,6 +3,17 @@
 import { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 type JsonNode = {
   key: string;
@@ -55,11 +66,39 @@ export default function JsonVis() {
     <div className="flex flex-col h-[calc(100vh-2rem)] gap-4">
       <div className="flex gap-4">
         <Card className="w-1/3 p-4">
-            <CardContent>
-                <Label htmlFor="json-file" className="block text-lg font-medium text-gray-700 mb-2">
-                    Upload JSON file
-                </Label>
-            </CardContent>
+          <CardContent>
+            <Label
+              htmlFor="json-file"
+              className="block text-lg font-medium text-gray-700 mb-2"
+            >
+              Upload JSON file
+            </Label>
+            <Input
+              id="json-file"
+              type="file"
+              accept=".json"
+              onChange={handleFileChange}
+              className="mb-4"
+            />
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">Enter Raw Data</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Enter Raw Data</DialogTitle>
+                  <DialogDescription>
+                    Paste your raw data here. Converted into beautiful JSON
+                  </DialogDescription>
+                </DialogHeader>
+                <Textarea
+                  value={rawData}
+                  onChange={(e) => setRawData(e.target.value)}
+                />
+              </DialogContent>
+            </Dialog>
+          </CardContent>
         </Card>
       </div>
     </div>
